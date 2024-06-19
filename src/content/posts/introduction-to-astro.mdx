@@ -1,0 +1,33 @@
+---
+title: 'Astro: A Exploratory Overview'
+---
+
+Astro is a modern web development framework designed to build fast, content-focused websites with
+ease. It offers a unique approach by allowing developers to mix and match various frontend
+frameworks like React, Vue, and Svelte within a single project while optimizing for performance
+through server-side rendering and a lightweight client-side footprint. Astro emphasizes the use of
+static site generation, ensuring that sites are fast to load and highly scalable. By automatically
+stripping away unnecessary JavaScript, Astro delivers only what's needed for each page,
+significantly enhancing loading times and overall user experience. This framework is particularly
+well-suited for blogs, marketing sites, and other content-heavy applications, providing a powerful
+toolset for developers aiming to create performant and maintainable web projects.
+
+```astro
+<div>
+  <h1>Counter: <span data-count>0</span></h1>
+  <button data-increment>Increment</button>
+  <button data-decrement>Decrement</button>
+</div>
+
+<script>
+  document.querySelector('[data-increment]').addEventListener('click', () => {
+    const count = document.querySelector('[data-count]');
+    count.textContent = Number(count.textContent) + 1;
+  });
+
+  document.querySelector('[data-decrement]').addEventListener('click', () => {
+    const count = document.querySelector('[data-count]');
+    count.textContent = Number(count.textContent) - 1;
+  });
+</script>
+```

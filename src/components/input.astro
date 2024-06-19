@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'input'>;
+
+const { class: className, type, autocomplete, spellcheck, ...props } = Astro.props;
+---
+
+<input
+  {...props}
+  type={type ?? 'text'}
+  autocomplete={autocomplete ?? 'off'}
+  spellcheck={spellcheck ?? 'false'}
+  class={twMerge(
+    'flex-1 rounded bg-surface-2 px-4 py-2 caret-brand',
+    'focus-visible:outline-none focus-visible:ring-1',
+    className,
+  )}
+/>

@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+
+import Layout from '@/layouts/index.astro';
+import type { GetStaticPaths } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+type Post = CollectionEntry<'posts'>;
+type Props = { post: Post; prev: Post; next: Post };
+
+export const getStaticPaths: GetStaticPaths = async () =>
+  getCollection('posts').then((posts) => posts.map((post) => ({ params: { slug: post.slug }, props: { post } })));
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout>
+  <div class="flex flex-col gap-8">
+    <h1 transition:name={post.slug} class="font-extrabold tracking-tight text-brand text-3xl">{post.data.title}</h1>
+    <Content />
+  </div>
+</Layout>
+
+<style is:global>
+  pre {
+    @apply rounded border border-brand/50 p-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-surface-2;
+  }
+</style>

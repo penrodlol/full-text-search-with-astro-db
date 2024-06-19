@@ -1,0 +1,30 @@
+---
+import type { PostSearch } from '@/db/config';
+import { ArrowRight } from 'lucide-astro';
+
+type Props = { results: Array<PostSearch> };
+
+const { results } = Astro.props;
+---
+
+<ul class="flex flex-col gap-8">
+  {
+    results.map((result) => (
+      <li class="group rounded border bg-surface-2">
+        <a
+          href={`/posts/${result.slug}`}
+          aria-label={result.title}
+          class="flex flex-col gap-4 rounded p-4 focus-visible:outline-none focus-visible:ring-1"
+        >
+          <div class="flex items-center justify-between font-medium uppercase">
+            <h2 transition:name={result.slug!}>{result.title}</h2>
+            <ArrowRight class="ml-auto stroke-brand group-hover:translate-x-1 motion-safe:transition-all" />
+          </div>
+          <div class="rounded border bg-surface-1 p-4 text-foreground/80 text-xs">
+            <Fragment set:html={result.content} />
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>

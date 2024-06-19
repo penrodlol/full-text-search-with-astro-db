@@ -1,0 +1,35 @@
+---
+title: 'Angular: A Comprehensive Overview'
+---
+
+
+Angular is a robust, open-source web application framework developed and maintained by Google,
+designed to simplify the development and testing of single-page applications (SPAs). Utilizing
+TypeScript, a superset of JavaScript, Angular provides developers with strong typing, improved
+tooling, and better code maintainability. The framework's architecture is built around components
+and services, facilitating modular development and reusability. Angular's powerful features include
+two-way data binding, dependency injection, and a comprehensive suite of tools for routing, forms,
+and HTTP client functionalities. With its extensive ecosystem, Angular enables developers to create
+complex, scalable, and high-performance web applications, making it a popular choice for
+enterprise-level projects and large-scale applications.
+
+
+
+```ts
+import { Component, signal } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <div>
+      <h1>Counter: {{ count() }}</h1>
+      <button (click)="count.update(value => value + 1)">Increment</button>
+      <button (click)="count.update(value => value - 1)">Decrement</button>
+    </div>
+  `,
+})
+export class AppComponent {
+  readonly count = signal<number>(0);
+}
+```

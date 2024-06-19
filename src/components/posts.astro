@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import { ArrowRight } from 'lucide-astro';
+
+const posts = await getCollection('posts');
+---
+
+<ul class="flex flex-col gap-4">
+  {
+    posts.map((post) => (
+      <li class="group rounded border bg-surface-1 font-medium uppercase">
+        <a
+          href={`/posts/${post.slug}`}
+          aria-label={post.data.title}
+          class="flex items-center gap-4 rounded p-4 focus-visible:outline-none focus-visible:ring-1"
+        >
+          <h2 transition:name={post.slug}>{post.data.title}</h2>
+          <ArrowRight class="ml-auto stroke-brand group-hover:translate-x-1 motion-safe:transition-all" />
+        </a>
+      </li>
+    ))
+  }
+</ul>
