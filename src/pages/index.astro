@@ -1,50 +1,16 @@
 ---
-import { db, sql } from 'astro:db';
 import Button from '@/components/button.astro';
 import Input from '@/components/input.astro';
-import Posts from '@/components/posts.astro';
-import Results from '@/components/results.astro';
 import Layout from '@/layouts/index.astro';
-import { PostSearchRows, PostSearchMatcher } from '@/db/config';
-import type { PostSearch } from '@/db/config';
-
-const query = Astro.url.searchParams.get('query');
-const results: Array<PostSearch> = [];
-
-if (query) {
-  const safeQuery = PostSearchMatcher.safeParse(query);
-
-  if (safeQuery.success) {
-    const payload = await PostSearchRows.safeParseAsync(
-      await db.run(
-        sql`
-          select slug, title, highlight(PostSearch, 2, '<mark class="rounded bg-brand px-1 py-px">', '</mark>') as content
-          from PostSearch
-          where content match ${safeQuery.data}
-          order by rank
-        `,
-      ),
-    );
-
-    if (payload.success) results.push(...payload.data);
-  }
-}
+import Posts from './posts.astro';
 ---
 
-<Layout>
+<Layout x-data="postSearch">
   <h1 class="text-center font-extrabold tracking-tight text-4xl">Astro DB Full-Text Seach</h1>
-  <form class="mx-auto mb-10 mt-6 flex w-full gap-4">
-    <Input name="query" aria-label="Search" placeholder="Search a blog post..." value={query} />
-    <Button type="submit">Search</Button>
-    <Button type="reset" color="ghost" disabled={!results.length && !query}>Reset</Button>
+  <form method="POST" class="mx-auto mb-10 mt-6 flex w-full gap-4" @submit.prevent="submit">
+    <Input x-model="query" name="query" aria-label="Search a blog post" placeholder="Search a blog post..." />
+    <Button type="submit" :disabled="loading || query.trim() === ''">Search</Button>
+    <Button type="reset" color="ghost" :disabled="loading || query.trim() === ''" @click="reset">Reset</Button>
   </form>
-  <section class="pt-10">{results.length ? <Results {results} /> : <Posts />}</section>
+  <section class="pt-10"><Posts /></section>
 </Layout>
-
-<script>
-  import { navigate } from 'astro:transitions/client';
-
-  document.addEventListener('astro:page-load', () =>
-    document.querySelector('button[type="reset"]')?.addEventListener('click', () => navigate('/')),
-  );
-</script>

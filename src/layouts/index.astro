@@ -1,9 +1,18 @@
 ---
 import '@fontsource/inter';
+import type { HTMLAttributes } from 'astro/types';
 import { ViewTransitions } from 'astro:transitions';
+import { twMerge } from 'tailwind-merge';
+
+type Props = HTMLAttributes<'main'>;
+
+const { class: className, ...props } = Astro.props;
 ---
 
-<html lang="en" class="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-surface-2 selection:bg-brand/40">
+<html
+  lang="en"
+  class="ml-[calc(100vw-100%)] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-surface-2 selection:bg-brand/40"
+>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -12,8 +21,8 @@ import { ViewTransitions } from 'astro:transitions';
     <title>Astro DB Full-Text Search</title>
     <ViewTransitions />
   </head>
-  <body class="relative flex min-h-dvh flex-col bg-surface-1 text-foreground text-sm">
+  <body class="text-foreground-1 relative flex min-h-dvh flex-col bg-surface-1 text-sm">
     <div class="bg-radial-grid"></div>
-    <main class="mx-auto my-40 w-full max-w-screen-md flex-1"><slot /></main>
+    <main {...props} class={twMerge('mx-auto my-40 w-full max-w-screen-md flex-1', className)}><slot /></main>
   </body>
 </html>

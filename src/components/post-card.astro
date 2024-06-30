@@ -1,0 +1,29 @@
+---
+import { ArrowRight } from 'lucide-astro';
+import { twMerge } from 'tailwind-merge';
+
+type Props = { slug: string; title: string; content?: string };
+
+const { slug, title, content } = Astro.props;
+---
+
+<a
+  href={`/posts/${slug}`}
+  aria-label={title}
+  class={twMerge(
+    'group flex flex-col gap-4 rounded border p-4 focus-visible:outline-none focus-visible:ring-1',
+    content ? 'bg-surface-2' : 'bg-surface-1',
+  )}
+>
+  <div class="flex w-full items-center justify-between rounded-t font-medium uppercase">
+    <h2 transition:name={slug} class="group-hover:text-brand motion-safe:transition-colors">{title}</h2>
+    <ArrowRight class="ml-auto stroke-brand group-hover:translate-x-1 motion-safe:transition-all" />
+  </div>
+  {
+    content && (
+      <div class="text-foreground-1/80 rounded border bg-surface-1 p-4 text-xs">
+        <Fragment set:html={content} />
+      </div>
+    )
+  }
+</a>

@@ -1,17 +1,9 @@
 import { z } from 'astro/zod';
 import { defineDb } from 'astro:db';
 
-export type PostSearch = z.infer<typeof PostSeach>;
-export const PostSeach = z.object({
-  slug: z.string().optional(),
-  title: z.string().optional(),
-  content: z.string().optional(),
-});
-export const PostSearchRows = z.object({ rows: z.array(z.any()) }).transform((v) => v.rows);
-export const PostSearchMatcher = z
-  .string()
-  .trim()
-  .min(1)
-  .transform((v) => `"${v.replaceAll('"', '""')}"`);
+export type PostSearchTable = z.infer<typeof PostSearchTableSchema>;
+export type PostSearchQuery = z.infer<typeof PostSeachQuerySchema>;
+export const PostSearchTableSchema = z.object({ slug: z.string(), title: z.string(), content: z.string() });
+export const PostSeachQuerySchema = z.object({ rows: z.array(PostSearchTableSchema) }).transform((v) => v.rows);
 
 export default defineDb({ tables: {} });

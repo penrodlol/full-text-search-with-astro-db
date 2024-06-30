@@ -1,0 +1,69 @@
+---
+export const prerender = false;
+export const partial = false;
+
+import PostCard from '@/components/post-card.astro';
+import Skeleton from '@/components/skeleton.astro';
+import { PostSeachQuerySchema, type PostSearchQuery } from '@/db/config';
+import { z } from 'astro/zod';
+import { getCollection } from 'astro:content';
+import { db, sql } from 'astro:db';
+
+const allPosts = (await getCollection('posts')).map((post) => ({ slug: post.slug, title: post.data.title }));
+const searchedPosts: PostSearchQuery = [];
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const safeQuery = z
+    .string()
+    .trim()
+    .min(1)
+    .transform((v) => `"${v.replaceAll('"', '""')}"*`)
+    .safeParse(formData.get('query'));
+
+  if (safeQuery.success) {
+    const payload = await PostSeachQuerySchema.safeParseAsync(
+      await db.run(
+        sql`
+          select slug, title, highlight(PostSearch, 2, '<mark class="rounded bg-brand px-1 py-px">', '</mark>') as content
+          from PostSearch
+          where content match ${safeQuery.data}
+          order by rank
+        `,
+      ),
+    );
+
+    if (payload.success) searchedPosts.push(...payload.data);
+  }
+}
+---
+
+<div x-ref="partial" x-cloak class="[&[x-cloak]]:hidden">
+  <!-- prettier-ignore -->
+  <ul x-show="!loading && !searched" class="flex flex-col gap-6">
+    {allPosts.map((post) => (<li><PostCard {...post} /></li>))}
+  </ul>
+
+  <!-- prettier-ignore -->
+  <ul x-show="!loading && searched" class="flex flex-col gap-6">
+    {searchedPosts.map((post) => (<li><PostCard {...post} /></li>))}
+  </ul>
+
+  <ul x-show="loading" x-transition:enter.delay.100ms class="flex flex-col gap-6">
+    <template x-for="_ in 3"><li><Skeleton class="h-12 w-full" /></li></template>
+  </ul>
+
+  <div x-show="failed" class="flex flex-col text-center">
+    <h3 class="font-semibold text-2xl">Failed to Load Posts</h3>
+    <p class="text-foreground-2">An error occurred while fetching posts.</p>
+  </div>
+
+  {
+    !searchedPosts.length && (
+      <div x-show="searched" class="flex flex-col text-center">
+        <h3 class="font-semibold text-2xl">No Posts Found</h3>
+        <p class="text-foreground-2">No posts matched the search criteria.</p>
+      </div>
+    )
+  }
+</div>

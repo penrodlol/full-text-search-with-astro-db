@@ -10,8 +10,10 @@ export default {
       colors: {
         'surface-1': 'hsl(223, 21%, 6%)',
         'surface-2': 'hsl(222, 13%, 22%)',
-        foreground: 'hsl(210, 44%, 96%)',
+        'foreground-1': 'hsl(210, 44%, 96%)',
+        'foreground-2': 'hsl(210, 20%, 80%)',
         brand: 'hsl(238, 100%, 84%)',
+        danger: 'hsl(0, 180%, 85%)',
       },
       borderColor: { DEFAULT: 'hsl(222, 13%, 33%)' },
       ringColor: { DEFAULT: 'hsl(210, 30%, 94%)' },
