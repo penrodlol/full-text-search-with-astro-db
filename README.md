@@ -1,47 +1,43 @@
-# Astro Starter Kit: Minimal
+# Full Text Search with Astro DB
 
-```sh
-npm create astro@latest -- --template minimal
-```
+This demo project showcases a full-text search solution using [Astro DB][astrojs-db] and SQLite's [FTS5][fts5] virtual
+table module.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+It provides a batteries-included solution for searching a collection of blog posts using:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- [FTS5 Virtual Table Module][fts5]
+- [Astro DB][astrojs-db]
+- [Astro Page Partials][astrojs-partial]
+- [Astro Hybrid Rendering][astrojs-hybrid]
+- [Tailwind CSS][tailwindcss]
+- [Alpine.js][alpinejs]
 
-## 🚀 Project Structure
+It also offers solutions for seeding both local and production databases.
 
-Inside of your Astro project, you'll see the following folders and files:
+For more information, check out my blog post on the topic at [christianpenrod.com][post].
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+<br/>
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+![Full Text Search with Astro DB](./public/screenshot.png)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+<br/>
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Getting Started
 
-## 🧞 Commands
+1. Install dependencies:
+   ```sh
+   pnpm install
+   ```
+2. Start the development server:
+   ```sh
+    pnpm dev
+   ```
+3. Open the browser and navigate to `http://localhost:4321`.
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+[post]: https://christianpenrod.com/blog/full-text-search-with-astro-db
+[fts5]: https://www.sqlite.org/fts5.html
+[astrojs-db]: https://docs.astro.build/en/guides/astro-db/
+[astrojs-hybrid]: https://docs.astro.build/en/guides/server-side-rendering/#opting-out-of-pre-rendering-in-hybrid-mode
+[astrojs-partial]: https://docs.astro.build/en/basics/astro-pages/#page-partials
+[tailwindcss]: https://tailwindcss.com/
+[alpinejs]: https://alpinejs.dev/
